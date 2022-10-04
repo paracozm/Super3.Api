@@ -6,7 +6,7 @@ namespace Super3.Application.Interfaces
 {
     public interface ICustomerApplication
     {
-        Task<Response> CreateAsync(CreateCustomerRequest customer);
+        Task<Response> CreateAsync(CreateCustomerRequest request);
         Task<Response> UpdateAsync(UpdateCustomerRequest request);
         Task<Response<CustomerResponse>> GetByIdAsync(int Id);
         Task<Response<List<CustomerResponse>>> GetAllAsync();

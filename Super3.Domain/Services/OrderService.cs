@@ -1,11 +1,6 @@
 ﻿using Super3.Domain.Interfaces.Repositories;
 using Super3.Domain.Interfaces.Services;
 using Super3.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Super3.Domain.Services
 {

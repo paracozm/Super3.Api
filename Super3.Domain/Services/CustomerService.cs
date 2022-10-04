@@ -11,6 +11,8 @@ namespace Super3.Domain.Services
 {
     public class CustomerService : ICustomerService
     {
+        
+        
         private readonly ICustomerRepository _customerRepository;
         public CustomerService(ICustomerRepository customerRepository)
         {
@@ -47,45 +49,36 @@ namespace Super3.Domain.Services
         {
             var response = new Response();
             await ViaCepService.GetCepInfo(customer);
+            await CPFValidationService.CPFCheck(customer);
             var validation = new CustomerValidation();
             var errors = validation.Validate(customer).GetErrors();
-            var validatecpf = (!CpfValidation.Validate(customer.Document));
-            if(!validatecpf) return errors;
-            if (errors.Report.Count > 0) return errors;
-
             
-
-
+            if (errors.Report.Count > 0) return errors;
 
             await _customerRepository.CreateAsync(customer);
 
             return response;
         }
-        async Task<Response> ICustomerService.UpdateAsync(Customer customer)
+        /*async Task<Response> ICustomerService.UpdateAsync(Customer customer)
         {
             var response = new Response();
             await ViaCepService.GetCepInfo(customer);
+            await CPFValidationService.CPFCheck(customer);
             var validation = new CustomerValidation();
             var errors = validation.Validate(customer).GetErrors();
 
             if (errors.Report.Count > 0) return errors;
 
-            
             var exists = await _customerRepository.ExistsByIdAsync(customer.Id);
             if (!exists)
             {
                 response.Report.Add(Report.Create($"Customer {customer.Id} doesn't exist!"));
                 return response;
             }
-            if (!CpfValidation.Validate(customer.Document))
-                return errors;
-
-            
-
             await _customerRepository.UpdateAsync(customer);
 
             return response;
-        }
+        }*/
     }
 }
 

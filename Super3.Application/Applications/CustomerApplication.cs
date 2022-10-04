@@ -57,8 +57,9 @@ namespace Super3.Application.Applications
             {
                 
                 
-
+                
                 var customerModel = _mapper.Map<Customer>(customer);
+                
 
                 return await _customerService.CreateAsync(customerModel);
             }

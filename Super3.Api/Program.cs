@@ -30,10 +30,10 @@ builder.Services.AddScoped<IDbConnector>(db => new SqlConnector(connString));
 //DI
 builder.Services.AddScoped<IUnityOfWork, UnityOfWork>();
 builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IProductApplication, ProductApplication>();
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 

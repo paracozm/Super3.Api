@@ -45,6 +45,7 @@ namespace Super3.Api.Controllers
         {
             
             var response = await _customerApplication.CreateAsync(request);
+
             if (response.Report.Any())
                 return UnprocessableEntity(response.Report);
             
