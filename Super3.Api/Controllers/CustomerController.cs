@@ -23,6 +23,7 @@ namespace Super3.Api.Controllers
         public async Task<ActionResult> GetAll()
         {
             var response = await _customerApplication.GetAllAsync();
+
             if (response.Report.Any())
                 return UnprocessableEntity(response.Report);
 
@@ -32,8 +33,8 @@ namespace Super3.Api.Controllers
         [HttpGet("{Id}")]
         public async Task<ActionResult> Get(int Id)
         {
-            //var customerId = int.Parse(Id);
             var response = await _customerApplication.GetByIdAsync(Id);
+
             if (response.Report.Any())
                 return UnprocessableEntity(response.Report);
 
@@ -43,28 +44,12 @@ namespace Super3.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody]CreateCustomerRequest request)
         {
-            
             var response = await _customerApplication.CreateAsync(request);
-
+            
             if (response.Report.Any())
                 return UnprocessableEntity(response.Report);
-            
-            return Ok(response + " New customer has been created"); //////////////////////////////////////// NAO VOLTA RESPONSE BODY
+
+            return Ok(response);
         }
-
-
-
-
-
-
-        /*[HttpPut("{Id}")]/////errror
-        public async Task<ActionResult> Put(int Id, [FromBody]UpdateCustomerRequest request)
-        {
-            var response = await _customerApplication.UpdateAsync(request);
-            if (response.Report.Any())
-                return UnprocessableEntity(response.Report); 
-
-            return Ok(response + " Customer has been updated");
-        }*/
     }
 }

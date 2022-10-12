@@ -81,13 +81,13 @@ namespace Super3.Infra.Repositories
             {
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
-                Document = customer.Document,
+                Document = customer.Document.Replace("-", "").Replace(".", ""),
                 Street = customer.Street,
                 AddressNumber = customer.AddressNumber,
                 Neighborhood = customer.Neighborhood,
                 City = customer.City,
                 Province = customer.Province,
-                CEP = customer.CEP.Replace("-", "")
+                CEP = customer.CEP.Replace("-", "").Replace(".", "")
             }, _dbConnector.dbTransaction);
         }
 
@@ -129,6 +129,16 @@ namespace Super3.Infra.Repositories
             var customer = await _dbConnector.dbConnection.QueryAsync<bool>(sql, new { Id = customerId }, _dbConnector.dbTransaction);
 
             return customer.FirstOrDefault();
+        }
+
+        public async Task<bool> CpfExists(string cpf)
+        {
+            string sql = $@"SELECT 1 FROM Customer WHERE Document = @Document ";
+
+
+            var customerCPF = await _dbConnector.dbConnection.QueryAsync<bool>(sql, new { Document = cpf }, _dbConnector.dbTransaction);
+
+            return customerCPF.FirstOrDefault();
         }
 
     }

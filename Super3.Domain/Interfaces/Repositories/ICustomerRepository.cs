@@ -9,8 +9,7 @@ namespace Super3.Domain.Interfaces.Repositories
         Task<Customer> GetByIdAsync(int customerId);
         Task<List<Customer>> GetAllAsync();
         Task<bool> ExistsByIdAsync(int customerId);
-        //Task ExistsByIdAsync(int customerId);
-        //Task ExistsByIdAsync(int id);
+        Task<bool> CpfExists(string cpf);
     }
 }
  

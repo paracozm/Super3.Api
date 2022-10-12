@@ -18,6 +18,17 @@ namespace Super3.Domain.Services
             customer.Neighborhood = viaCepResponse.bairro;
             customer.City = viaCepResponse.localidade;
             customer.Province = viaCepResponse.uf;
+
+
+            if (customer.City == null)
+            {
+                string errorMessage = ("Invalid CEP");
+                throw new Exception (errorMessage);
+            }
+                
         }
+
+
+       
     }
 }

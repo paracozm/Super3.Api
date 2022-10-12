@@ -36,7 +36,6 @@ namespace Super3.Application.Applications
 
         public async Task<Response<CustomerResponse>> GetByIdAsync(int customerId)
         {
-            //var Id2 = Id.ToString();
             Response<Customer> customer = await _customerService.GetByIdAsync(customerId);
 
             if (customer.Report.Any())
@@ -47,39 +46,20 @@ namespace Super3.Application.Applications
             return Response.OK(response);
         }
 
-
-
-
-
         public async Task<Response> CreateAsync(CreateCustomerRequest customer)
         {
             try
             {
-                
-                
-                
                 var customerModel = _mapper.Map<Customer>(customer);
-                
 
                 return await _customerService.CreateAsync(customerModel);
             }
             catch (Exception ex)
             {
                 var response = Report.Create(ex.Message);
-
                 return Response.Unprocessable(response);
             }
         }
 
-
-
-        public async Task<Response> UpdateAsync(UpdateCustomerRequest request)
-        {
-            {
-                var customer = _mapper.Map<Customer>(request);
-
-                return await _customerService.UpdateAsync(customer);
-            }
-        }
     }
 }

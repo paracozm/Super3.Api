@@ -18,7 +18,6 @@ namespace Super3.Application.Mapper
         {
             CreateMap<CreateCustomerRequest, Customer>();
             CreateMap<Customer, CustomerResponse>();
-            CreateMap<UpdateCustomerRequest, Customer>();
         }
 
         private void ProductMap()

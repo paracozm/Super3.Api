@@ -16,8 +16,7 @@ namespace Super3.Infra.DataConnector
 
         public IDbConnection dbConnection { get; }
         public IDbTransaction dbTransaction { get; set; }
-
-
+        
 
 
         public void Dispose()

@@ -10,6 +10,7 @@ using Super3.Infra.DataConnector;
 using Super3.Infra.Repositories;
 
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -30,12 +31,11 @@ builder.Services.AddScoped<IDbConnector>(db => new SqlConnector(connString));
 //DI
 builder.Services.AddScoped<IUnityOfWork, UnityOfWork>();
 builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
-builder.Services.AddTransient<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IProductApplication, ProductApplication>();
-builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
 
 
 

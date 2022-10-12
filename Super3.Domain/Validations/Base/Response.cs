@@ -1,7 +1,11 @@
-﻿namespace Super3.Domain.Validations.Base
+﻿using Super3.Domain.Model;
+
+namespace Super3.Domain.Validations.Base
 {
     public class Response
     {
+        private Customer customer;
+
         public Response()
         {
             Report = new List<Report>();
@@ -17,7 +21,13 @@
 
         }
 
+        public Response(Customer customer)
+        {
+            Report = new List<Report>();
+        }
+
         public List<Report> Report { get; }
+        public Task Data { get; internal set; }
 
         public static Response<T> OK<T>(T data) => new Response<T>(data);
         public static Response OK() => new Response();

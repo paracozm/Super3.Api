@@ -11,7 +11,6 @@ namespace Super3.Domain.Services
             if (!CpfValidation.Validate(customer.Document))
             {
                 throw new Exception(errorMessage);
-                
             }
             else
             {
