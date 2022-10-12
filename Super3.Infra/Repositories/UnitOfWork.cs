@@ -3,7 +3,7 @@ using Super3.Domain.Interfaces.Repositories.DataConnector;
 
 namespace Super3.Infra.Repositories
 {
-    public class UnityOfWork : IUnityOfWork
+    public class UnitOfWork : IUnitOfWork
     {
 
         private ICustomerRepository _customerRepository;
@@ -11,7 +11,7 @@ namespace Super3.Infra.Repositories
         private IProductRepository _productRepository;
         private IStockRepository _stockRepository;
 
-        public UnityOfWork(IDbConnector dbConnector)
+        public UnitOfWork(IDbConnector dbConnector)
         {
             this.dbConnector = dbConnector;
         }

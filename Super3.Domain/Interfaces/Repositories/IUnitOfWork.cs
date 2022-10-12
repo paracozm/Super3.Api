@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Super3.Domain.Interfaces.Repositories
 {
-    public interface IUnityOfWork
+    public interface IUnitOfWork
     {
         ICustomerRepository CustomerRepository { get; }
         IOrderRepository OrderRepository { get; }

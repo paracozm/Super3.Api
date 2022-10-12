@@ -47,7 +47,7 @@ namespace Super3.Infra.Repositories
             return orders.ToList();
         }
 
-        public async Task<Order> GetByIdAsync(string orderId)
+        public async Task<Order> GetByIdAsync(int orderId)
         {
             string sql = $@"SELECT o.Id
                             ,o.ordernumber
@@ -81,7 +81,7 @@ namespace Super3.Infra.Repositories
             return order.FirstOrDefault();
         }
 
-        public async Task<List<OrderItem>> ListItemByOrderIdAsync(string orderId)
+        public async Task<List<OrderItem>> ListItemByOrderIdAsync(int orderId)
         {
             string sql = $@"SELECT oi.Id
                                ,oi.productprice
@@ -168,7 +168,7 @@ namespace Super3.Infra.Repositories
 
 
 
-        public async Task<bool> ExistsByIdAsync(string orderId)
+        public async Task<bool> ExistsByIdAsync(int orderId)
         {
             string sql = $@"SELECT 1 FROM [Order] WHERE Id = @Id ";
 

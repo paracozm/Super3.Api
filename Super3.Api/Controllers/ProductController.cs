@@ -31,7 +31,7 @@ namespace Super3.Api.Controllers
         }
 
         // GET api/<ProductController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{Id}")]
         public async Task<ActionResult> Get(int Id)
         {
             //var customerId = int.Parse(Id);

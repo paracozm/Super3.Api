@@ -1,18 +1,14 @@
 ﻿using Super3.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Super3.Domain.Validations.Base;
 
 namespace Super3.Domain.Interfaces.Services
 {
     public interface IOrderService
     {
-        Task CreateAsync(Order order);
-        
-        Task<Order> GetByIdAsync(string orderId);
-        Task<List<Order>> GetAllAsync();
-        
+
+        Task<Response<List<Order>>> GetAllAsync();
+        Task<Response<Order>> GetByIdAsync(int orderId);
+        Task<Response> CreateAsync(Order order);
+
     }
 }

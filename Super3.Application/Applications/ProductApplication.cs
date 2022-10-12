@@ -17,7 +17,7 @@ namespace Super3.Application.Applications
 
         public ProductApplication(IProductService productService, IMapper mapper)
         {
-            _productService = _productService;
+            _productService = productService;
             _mapper = mapper;
         }
         public async Task<Response<List<ProductResponse>>> GetAllAsync()

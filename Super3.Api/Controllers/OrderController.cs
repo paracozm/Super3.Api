@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Super3.Application.Applications;
-using Super3.Application.DataContract.Request.Customer;
 using Super3.Application.DataContract.Request.Order;
 using Super3.Application.Interfaces;
 
@@ -19,9 +17,6 @@ namespace Super3.Api.Controllers
             _orderApplication = orderApplication;
         }
 
-
-
-        // GET: api/<OrderController>
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
@@ -32,7 +27,6 @@ namespace Super3.Api.Controllers
             return Ok(response);
         }
 
-        // GET api/<OrderController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
@@ -43,7 +37,6 @@ namespace Super3.Api.Controllers
             return Ok(response);
         }
 
-        // POST api/<OrderController>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateOrderRequest request)
         {
@@ -51,7 +44,7 @@ namespace Super3.Api.Controllers
             if (response.Report.Any())
                 return UnprocessableEntity(response.Report);
 
-            return Ok(response + " New order has been created"); //////////////////////////////////////// NAO VOLTA RESPONSE BODY
+            return Ok(response);
         }
 
     }
