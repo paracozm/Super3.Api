@@ -2,7 +2,7 @@
 {
     public sealed class OrderResponse
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int CustomerId { get; set; } //FK
         public string OrderNumber { get; set; }
         public DateTime OrderDate { get; set; }

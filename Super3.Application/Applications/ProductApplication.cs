@@ -6,6 +6,7 @@ using Super3.Application.DataContract.Response.Product;
 using Super3.Application.Interfaces;
 using Super3.Domain.Interfaces.Services;
 using Super3.Domain.Model;
+using Super3.Domain.Services;
 using Super3.Domain.Validations.Base;
 
 namespace Super3.Application.Applications
@@ -34,7 +35,7 @@ namespace Super3.Application.Applications
 
 
 
-        public async Task<Response<ProductResponse>> GetByIdAsync(int productId)
+        public async Task<Response<ProductResponse>> GetByIdAsync(string productId)
         {
             //var Id2 = Id.ToString();
             Response<Product> product = await _productService.GetByIdAsync(productId);
@@ -56,13 +57,12 @@ namespace Super3.Application.Applications
             try
             {
                 var productModel = _mapper.Map<Product>(product);
-
-                return await _productService.CreateAsync(productModel);
+                await _productService.CreateAsync(productModel);
+                return Response.OK(product);
             }
             catch (Exception ex)
             {
                 var response = Report.Create(ex.Message);
-
                 return Response.Unprocessable(response);
             }
         }

@@ -10,9 +10,12 @@ namespace Super3.Domain.Services
     {
         
         
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomerRepository _customerRepository;
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(IUnitOfWork unitOfWork, ICustomerRepository customerRepository)
         {
+
+            _unitOfWork = unitOfWork;
             _customerRepository = customerRepository;
         }
 
@@ -20,8 +23,9 @@ namespace Super3.Domain.Services
         public async Task<Response<List<Customer>>> GetAllAsync()
         {
             var response = new Response<List<Customer>>();
+            
 
-            var data = await _customerRepository.GetAllAsync();
+            var data = await _unitOfWork.CustomerRepository.GetAllAsync();
             response.Data = data;
             return response;
         }
@@ -30,7 +34,7 @@ namespace Super3.Domain.Services
             var response = new Response<Customer>();
 
            
-            var exists = await _customerRepository.ExistsByIdAsync(customerId);
+            var exists = await _unitOfWork.CustomerRepository.ExistsByIdAsync(customerId);
 
             if (!exists)
             {
@@ -38,34 +42,48 @@ namespace Super3.Domain.Services
                 return response;
             }
             //var customerIdStr = customerId.ToString();
-            var data = await _customerRepository.GetByIdAsync(customerId);
+            var data = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             response.Data = data;
             return response;
         }
         public async Task<Response> CreateAsync(Customer customer)
         {
             var response = new Response();
-            var validation = new CustomerValidation();
-            await ViaCepService.GetCepInfo(customer);
-            await CPFValidationService.CPFCheck(customer);
-
-            var exists = await _customerRepository.CpfExists(customer.Document.Replace(".", "").Replace("-", ""));
-            if (exists)
+            _unitOfWork.BeginTransaction();
+            try
             {
-                response.Report.Add(Report.Create($"CPF: {customer.Document.Replace(".", "").Replace("-", "")} is already registered!"));
+                var validation = new CustomerValidation();
+                await ViaCepService.GetCepInfo(customer);
+                await CPFValidationService.CPFCheck(customer);
+
+                var exists = await _unitOfWork.CustomerRepository.CpfExists(customer.Document.Replace(".", "").Replace("-", ""));
+                if (exists)
+                {
+                    response.Report.Add(Report.Create($"CPF: {customer.Document.Replace(".", "").Replace("-", "")} is already registered!"));
+                    return response;
+                }
+
+                var errors = validation.Validate(customer).GetErrors();
+
+                if (errors.Report.Count > 0)
+                {
+                    _unitOfWork.RollbackTransaction();
+                    return errors;
+                }
+
+
+                await _unitOfWork.CustomerRepository.CreateAsync(customer);
+
+                _unitOfWork.CommitTransaction();
+
                 return response;
             }
-
-            var errors = validation.Validate(customer).GetErrors();
-
-            if (errors.Report.Count > 0) 
-                return errors;
-
-            await _customerRepository.CreateAsync(customer);
-
-            return response;
-
-        } 
+            catch(Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                return response;
+            }
+        }
     }
 }
 

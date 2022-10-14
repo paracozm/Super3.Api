@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using DocumentValidator;
 using Super3.Application.DataContract.Request.Customer;
 using Super3.Application.DataContract.Response.Customer;
 using Super3.Application.Interfaces;
 using Super3.Domain.Interfaces.Services;
 using Super3.Domain.Model;
 using Super3.Domain.Validations.Base;
-using System.Xml.Linq;
 
 namespace Super3.Application.Applications
 {
@@ -52,7 +50,8 @@ namespace Super3.Application.Applications
             {
                 var customerModel = _mapper.Map<Customer>(customer);
 
-                return await _customerService.CreateAsync(customerModel);
+                var response = await _customerService.CreateAsync(customerModel);
+                return response;
             }
             catch (Exception ex)
             {

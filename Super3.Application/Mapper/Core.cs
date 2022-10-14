@@ -32,9 +32,20 @@ namespace Super3.Application.Mapper
 
         private void OrderMap()
         {
-            CreateMap<CreateOrderRequest, Order>();
+            CreateMap<CreateOrderRequest, Order>()
+                .ForPath(dest => dest.Customer.Id, opt => opt.MapFrom(src => src.CustomerId));
+
             CreateMap<Order, OrderResponse>();
+
+            CreateMap<CreateOrderItemRequest, OrderItem>()
+                .ForPath(dest => dest.Product.Id, opt => opt.MapFrom(source => source.ProductId));
+
+            CreateMap<OrderItem, OrderItemResponse>();
+
+            
         }
+
+
     }
 }
  

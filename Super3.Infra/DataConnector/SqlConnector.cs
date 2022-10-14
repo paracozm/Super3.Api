@@ -16,7 +16,20 @@ namespace Super3.Infra.DataConnector
 
         public IDbConnection dbConnection { get; }
         public IDbTransaction dbTransaction { get; set; }
-        
+
+        public IDbTransaction BeginTransaction(IsolationLevel isolationLevel)
+        {
+            if (dbTransaction != null)
+            {
+                return dbTransaction;
+            }
+            if (dbConnection.State == ConnectionState.Closed)
+            {
+                dbConnection.Open();
+            }
+
+            return (dbTransaction = dbConnection.BeginTransaction(isolationLevel));
+        }
 
 
         public void Dispose()
@@ -24,5 +37,7 @@ namespace Super3.Infra.DataConnector
             dbConnection?.Dispose();
             dbTransaction?.Dispose();
         }
+
+        
     }
 }

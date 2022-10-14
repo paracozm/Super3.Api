@@ -19,7 +19,7 @@ namespace Super3.Infra.Repositories
                             ,o.ordernumber
                             ,o.orderdate
                             ,o.totalprice
-                            ,c.Id as customerId
+                            ,c.Id
                             ,c.firstname
                             ,c.lastname
                             ,c.document
@@ -117,32 +117,38 @@ namespace Super3.Infra.Repositories
         
         public async Task CreateAsync(Order order)
         {
+            
             string sql = $@"INSERT INTO [order]
-                               ([CustomerId]
+                               ([Id]
+                               ,[CustomerId]
                                ,[OrderNumber]
                                ,[OrderDate]
                                ,[TotalPrice])
                             VALUES
-                               (@CustomerId
+                               (@Id
+                               ,@CustomerId
                                ,@OrderNumber
                                ,@OrderDate
                                ,@TotalPrice)";
 
             await _dbConnector.dbConnection.ExecuteAsync(sql, new
             {
+                Id = order.Id,
                 CustomerId = order.Customer.Id,
                 OrderNumber = order.OrderNumber,
                 OrderDate = order.OrderDate,
                 TotalPrice = order.TotalPrice
             }, _dbConnector.dbTransaction);
-
+            
             if (order.Items.Any())
             {
                 foreach (var item in order.Items)
                 {
+                    item.Order = order;
                     await CreateItemAsync(item);
                 }
             }
+
 
         }
 
@@ -162,6 +168,11 @@ namespace Super3.Infra.Repositories
                 ProductId = item.Product.Id,
                 ProductPrice = item.ProductPrice,
             }, _dbConnector.dbTransaction);
+
+
+
+
+            
         }
 
 

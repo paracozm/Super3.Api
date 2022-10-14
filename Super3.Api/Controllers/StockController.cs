@@ -42,10 +42,5 @@ namespace Super3.Api.Controllers
         {
         }
 
-        // DELETE api/<StockController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

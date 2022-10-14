@@ -13,25 +13,25 @@ namespace Super3.Domain.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public ProductService(IUnitOfWork unitOfWork)
         {
-            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
         }
         async Task<Response<List<Product>>> IProductService.GetAllAsync()
         {
             var response = new Response<List<Product>>();
 
-            var data = await _productRepository.GetAllAsync();
+            var data = await _unitOfWork.ProductRepository.GetAllAsync();
             response.Data = data;
             return response;
         }
-        async Task<Response<Product>> IProductService.GetByIdAsync(int productId)
+        async Task<Response<Product>> IProductService.GetByIdAsync(string productId)
         {
             var response = new Response<Product>();
 
            
-            var exists = await _productRepository.ExistsByIdAsync(productId);
+            var exists = await _unitOfWork.ProductRepository.ExistsByIdAsync(productId);
 
             if (!exists)
             {
@@ -39,17 +39,21 @@ namespace Super3.Domain.Services
                 return response;
             }
             //var customerIdStr = customerId.ToString();
-            var data = await _productRepository.GetByIdAsync(productId);
+            var data = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
             response.Data = data;
             return response;
         }
         async Task<Response> IProductService.CreateAsync(Product product)
         {
             var response = new Response();
+            
+
             var validation = new ProductValidation();
+
             var errors = validation.Validate(product).GetErrors();
             if (errors.Report.Count > 0) return errors;
-            await _productRepository.CreateAsync(product);
+            product.Id = Guid.NewGuid().ToString("N");
+            await _unitOfWork.ProductRepository.CreateAsync(product);
 
             return response;
         }
@@ -62,14 +66,14 @@ namespace Super3.Domain.Services
             if (errors.Report.Count > 0) return errors;
 
             
-            var exists = await _productRepository.ExistsByIdAsync(product.Id);
+            var exists = await _unitOfWork.ProductRepository.ExistsByIdAsync(product.Id);
             if (!exists)
             {
                 response.Report.Add(Report.Create($"Customer {product.Id} doesn't exist!"));
                 return response;
             }
 
-            await _productRepository.UpdateAsync(product);
+            await _unitOfWork.ProductRepository.UpdateAsync(product);
 
             return response;
         }

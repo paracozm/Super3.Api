@@ -12,7 +12,7 @@ namespace Super3.Domain.Interfaces.Services
     {
         Task<Response> CreateAsync(Product product);
         Task<Response> UpdateAsync(Product product);
-        Task<Response<Product>> GetByIdAsync(int productId);
+        Task<Response<Product>> GetByIdAsync(string productId);
         Task<Response<List<Product>>> GetAllAsync();
     }
 }

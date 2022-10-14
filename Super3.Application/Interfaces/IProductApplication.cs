@@ -7,7 +7,7 @@ namespace Super3.Application.Interfaces
     public interface IProductApplication
     {
         Task<Response> CreateAsync(CreateProductRequest product);
-        Task<Response<ProductResponse>> GetByIdAsync(int productId);
+        Task<Response<ProductResponse>> GetByIdAsync(string productId);
         Task<Response<List<ProductResponse>>> GetAllAsync();
         Task<Response> UpdateAsync(UpdateProductRequest product);
 

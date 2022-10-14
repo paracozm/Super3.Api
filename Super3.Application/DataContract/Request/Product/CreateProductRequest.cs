@@ -8,7 +8,7 @@ namespace Super3.Application.DataContract.Request.Product
 {
     public sealed class CreateProductRequest
     {
-        public int Id { get; set; }
+        //public string Id { get; set; }
         public string ProductName { get; set; }
     }
 }

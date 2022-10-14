@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Super3.Application.Applications;
 using Super3.Application.DataContract.Request.Customer;
+using Super3.Application.DataContract.Request.Order;
 using Super3.Application.DataContract.Request.Product;
 using Super3.Application.Interfaces;
 
@@ -32,7 +33,7 @@ namespace Super3.Api.Controllers
 
         // GET api/<ProductController>/5
         [HttpGet("{Id}")]
-        public async Task<ActionResult> Get(int Id)
+        public async Task<ActionResult> Get(string Id)
         {
             //var customerId = int.Parse(Id);
             var response = await _productApplication.GetByIdAsync(Id);
@@ -50,8 +51,9 @@ namespace Super3.Api.Controllers
             if (response.Report.Any())
                 return UnprocessableEntity(response.Report);
 
-            return Ok(response + " New product has been created");
+            return Ok(response);
         }
+
 
         // PUT api/<ProductController>/5
         [HttpPut("{id}")]
@@ -61,7 +63,7 @@ namespace Super3.Api.Controllers
             if (response.Report.Any())
                 return UnprocessableEntity(response.Report);
 
-            return Ok(response + " Product has been updated");
+            return Ok(response);
         }
 
     }

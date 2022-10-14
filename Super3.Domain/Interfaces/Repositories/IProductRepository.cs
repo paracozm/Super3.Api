@@ -6,9 +6,9 @@ namespace Super3.Domain.Interfaces.Repositories
     {
         Task CreateAsync(Product product);
         Task UpdateAsync(Product product);
-        Task<Product> GetByIdAsync(int productId);
+        Task<Product> GetByIdAsync(string productId);
         Task<List<Product>> GetAllAsync();
-        Task<bool> ExistsByIdAsync(int productId);
+        Task<bool> ExistsByIdAsync(string productId);
     }
     
 

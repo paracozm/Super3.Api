@@ -8,11 +8,10 @@ namespace Super3.Domain.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _orderRepository;
+        
         private readonly IUnitOfWork _unitOfWork;
-        public OrderService(IOrderRepository orderRepository, IUnitOfWork unitOfWork)
+        public OrderService (IUnitOfWork unitOfWork)
         {
-            _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -43,13 +42,17 @@ namespace Super3.Domain.Services
         public async Task<Response> CreateAsync(Order order)
         {
             var response = new Response();
+            order.OrderDate = DateTime.Now;
+            order.OrderNumber = Guid.NewGuid().ToString("N");
+            order.Id = Guid.NewGuid().ToString("N");
             var validation = new OrderValidation();
-
 
             var errors = validation.Validate(order).GetErrors();
 
             if (errors.Report.Count > 0)
                 return errors;
+
+
 
             await _unitOfWork.OrderRepository.CreateAsync(order);
 

@@ -23,7 +23,7 @@ namespace Super3.Infra.Repositories
 
             return products.ToList();
         }
-        public async Task<Product> GetByIdAsync(int productId)
+        public async Task<Product> GetByIdAsync(string productId)
         {
             string sql = $@"SELECT [Id]
                                  ,[ProductName]
@@ -38,10 +38,11 @@ namespace Super3.Infra.Repositories
         public async Task CreateAsync(Product product)
         {
             string sql = $@"INSERT INTO Product 
-                         (ProductName) values (@ProductName)";
+                         (Id, ProductName) values (@Id, @ProductName)";
 
             await _dbConnector.dbConnection.ExecuteAsync(sql, new
             {
+                Id = product.Id,
                 ProductName = product.ProductName
             }, _dbConnector.dbTransaction);
         }
@@ -57,7 +58,7 @@ namespace Super3.Infra.Repositories
             }, _dbConnector.dbTransaction);
 
         }
-        public async Task<bool> ExistsByIdAsync(int productId)
+        public async Task<bool> ExistsByIdAsync(string productId)
         {
             string sql = $@"SELECT 1 FROM Product WHERE Id = @Id ";
 
