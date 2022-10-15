@@ -56,7 +56,10 @@ namespace Super3.Domain.Services
                 await ViaCepService.GetCepInfo(customer);
                 await CPFValidationService.CPFCheck(customer);
 
-                
+                var errors = validation.Validate(customer).GetErrors();
+
+                if (errors.Report.Count > 0)
+                    return errors;
 
 
                 await _unitOfWork.CustomerRepository.CreateAsync(customer);
