@@ -28,18 +28,23 @@ namespace Super3.Infra.Repositories
 
         public void BeginTransaction()
         {
-            if(dbConnector.dbConnection.State == System.Data.ConnectionState.Open)
-                dbConnector.dbConnection.BeginTransaction(System.Data.IsolationLevel.ReadUncommitted);
+            dbConnector.dbConnection.BeginTransaction(System.Data.IsolationLevel.ReadUncommitted);
         }
 
         public void CommitTransaction()
         {
-            dbConnector.dbTransaction.Commit();
+            if (dbConnector.dbConnection.State == System.Data.ConnectionState.Open)
+            {
+                dbConnector.dbTransaction.Commit();
+            }
         }
 
         public void RollbackTransaction()
         {
-            dbConnector.dbTransaction.Rollback();
+            if (dbConnector.dbConnection.State == System.Data.ConnectionState.Open)
+            {
+                dbConnector.dbTransaction.Rollback();
+            }
         }
     }
 }

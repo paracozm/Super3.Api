@@ -56,20 +56,7 @@ namespace Super3.Domain.Services
                 await ViaCepService.GetCepInfo(customer);
                 await CPFValidationService.CPFCheck(customer);
 
-                var exists = await _unitOfWork.CustomerRepository.CpfExists(customer.Document.Replace(".", "").Replace("-", ""));
-                if (exists)
-                {
-                    response.Report.Add(Report.Create($"CPF: {customer.Document.Replace(".", "").Replace("-", "")} is already registered!"));
-                    return response;
-                }
-
-                var errors = validation.Validate(customer).GetErrors();
-
-                if (errors.Report.Count > 0)
-                {
-                    _unitOfWork.RollbackTransaction();
-                    return errors;
-                }
+                
 
 
                 await _unitOfWork.CustomerRepository.CreateAsync(customer);
