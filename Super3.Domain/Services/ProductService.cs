@@ -3,11 +3,6 @@ using Super3.Domain.Interfaces.Services;
 using Super3.Domain.Model;
 using Super3.Domain.Validations;
 using Super3.Domain.Validations.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Super3.Domain.Services
 {
@@ -18,7 +13,7 @@ namespace Super3.Domain.Services
         {
             _unitOfWork = unitOfWork;
         }
-        async Task<Response<List<Product>>> IProductService.GetAllAsync()
+        public async Task<Response<List<Product>>> GetAllAsync()
         {
             var response = new Response<List<Product>>();
 
@@ -26,7 +21,7 @@ namespace Super3.Domain.Services
             response.Data = data;
             return response;
         }
-        async Task<Response<Product>> IProductService.GetByIdAsync(string productId)
+        public async Task<Response<Product>> GetByIdAsync(string productId)
         {
             var response = new Response<Product>();
 
@@ -43,7 +38,7 @@ namespace Super3.Domain.Services
             response.Data = data;
             return response;
         }
-        async Task<Response> IProductService.CreateAsync(Product product)
+        public async Task<Response> CreateAsync(Product product)
         {
             var response = new Response();
             
@@ -53,11 +48,18 @@ namespace Super3.Domain.Services
             var errors = validation.Validate(product).GetErrors();
             if (errors.Report.Count > 0) return errors;
             product.Id = Guid.NewGuid().ToString("N");
+
             await _unitOfWork.ProductRepository.CreateAsync(product);
 
+
+
             return response;
+
+
+
+
         }
-        async Task<Response> IProductService.UpdateAsync(Product product)
+        public async Task<Response> UpdateAsync(Product product)
         {
             var response = new Response();
             var validation = new ProductValidation();

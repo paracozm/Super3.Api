@@ -29,6 +29,8 @@ namespace Super3.Domain.Validations.Base
         public List<Report> Report { get; }
         public Task Data { get; internal set; }
 
+
+
         public static Response<T> OK<T>(T data) => new Response<T>(data);
         public static Response OK() => new Response();
         public static Response Unprocessable(List<Report> reports) => new Response(reports);

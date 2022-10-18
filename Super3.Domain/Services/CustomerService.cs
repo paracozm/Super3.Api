@@ -11,12 +11,13 @@ namespace Super3.Domain.Services
         
         
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICustomerRepository _customerRepository;
-        public CustomerService(IUnitOfWork unitOfWork, ICustomerRepository customerRepository)
+
+        
+        public CustomerService(IUnitOfWork unitOfWork)
         {
 
             _unitOfWork = unitOfWork;
-            _customerRepository = customerRepository;
+
         }
 
 
@@ -41,7 +42,6 @@ namespace Super3.Domain.Services
                 response.Report.Add(Report.Create($"Customer {customerId} doesn't exist!"));
                 return response;
             }
-            //var customerIdStr = customerId.ToString();
             var data = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             response.Data = data;
             return response;
@@ -49,30 +49,31 @@ namespace Super3.Domain.Services
         public async Task<Response> CreateAsync(Customer customer)
         {
             var response = new Response();
-            _unitOfWork.BeginTransaction();
-            try
+
+            var validation = new CustomerValidation();
+
+            await ViaCepService.GetCepInfo(customer);
+            await CPFValidationService.CPFCheck(customer);
+
+            var exists = await _unitOfWork.CustomerRepository.CpfExists(customer.Document.Replace(".", "").Replace("-", ""));
+            if (exists)
             {
-                var validation = new CustomerValidation();
-                await ViaCepService.GetCepInfo(customer);
-                await CPFValidationService.CPFCheck(customer);
-
-                var errors = validation.Validate(customer).GetErrors();
-
-                if (errors.Report.Count > 0)
-                    return errors;
-
-
-                await _unitOfWork.CustomerRepository.CreateAsync(customer);
-
-                _unitOfWork.CommitTransaction();
-
+                response.Report.Add(Report.Create($"CPF: {customer.Document.Replace(".", "").Replace("-", "")} is already registered!"));
                 return response;
             }
-            catch(Exception ex)
+
+            var errors = validation.Validate(customer).GetErrors();
+
+            if (errors.Report.Count > 0)
             {
-                _unitOfWork.RollbackTransaction();
-                return response;
+                return errors;
             }
+
+            await _unitOfWork.CustomerRepository.CreateAsync(customer);
+
+
+
+            return response;
         }
     }
 }

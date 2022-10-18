@@ -7,7 +7,8 @@ namespace Super3.Domain.Interfaces.Services
     {
 
         Task<Response<List<Order>>> GetAllAsync();
-        Task<Response<Order>> GetByIdAsync(int orderId);
+
+        Task<Response<Order>> GetByIdAsync(string orderId);
         Task<Response> CreateAsync(Order order);
 
     }

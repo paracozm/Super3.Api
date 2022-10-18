@@ -17,6 +17,7 @@ namespace Super3.Infra.Repositories
         {
             string sql = $@"SELECT s.ProductId
                             ,s.quantity
+                            ,p.Id
                             ,p.productname
                         FROM stock s
                         JOIN product p ON s.productid = p.Id";
@@ -49,8 +50,10 @@ namespace Super3.Infra.Repositories
 
         public async Task<Stock> GetByIdAsync(string stockId)
         {
-            string sql = $@"SELECT s.ProductId
+            string sql = $@"SELECT 
+                             s.productId
                             ,s.quantity
+                            ,p.Id
                             ,p.productname
                         FROM stock s
                         JOIN product p ON s.productid = p.Id
@@ -84,7 +87,7 @@ namespace Super3.Infra.Repositories
             {
                 Id = stock,
                 Quantity = stock.Quantity,
-            }, _dbConnector.dbTransaction); //????????????????????? duvida
+            }, _dbConnector.dbTransaction); 
         }
     }
 }

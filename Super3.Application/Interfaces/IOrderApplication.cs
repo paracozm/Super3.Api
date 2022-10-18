@@ -8,7 +8,7 @@ namespace Super3.Application.Interfaces
     public interface IOrderApplication
     {
         Task<Response> CreateAsync(CreateOrderRequest order);
-        Task<Response<OrderResponse>> GetByIdAsync(int orderId);
+        Task<Response<OrderResponse>> GetByIdAsync(string orderId);
         Task<Response<List<OrderResponse>>> GetAllAsync();
         
     }

@@ -6,10 +6,10 @@ namespace Super3.Domain.Interfaces.Repositories
     {
         Task CreateAsync(Order order);
         Task CreateItemAsync(OrderItem item);
-        Task<Order> GetByIdAsync(int orderId);
+        Task<Order> GetByIdAsync(string orderId);
         Task<List<Order>> GetAllAsync();
-        Task<List<OrderItem>> ListItemByOrderIdAsync(int orderId);
-        Task<bool> ExistsByIdAsync(int orderId);
+        Task<List<OrderItem>> ListItemByOrderIdAsync(string orderId);
+        Task<bool> ExistsByIdAsync(string orderId);
        
     }
 }

@@ -28,7 +28,7 @@ namespace Super3.Infra.Repositories
 
         public void BeginTransaction()
         {
-            dbConnector.dbConnection.BeginTransaction(System.Data.IsolationLevel.ReadUncommitted);
+            dbConnector.BeginTransaction(System.Data.IsolationLevel.ReadUncommitted);
         }
 
         public void CommitTransaction()

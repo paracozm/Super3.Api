@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Super3.Api;
 using Super3.Application.Applications;
 using Super3.Application.Interfaces;
 using Super3.Application.Mapper;
@@ -13,13 +14,8 @@ using Super3.Infra.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
-
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Core));
@@ -28,7 +24,7 @@ var builder2 = WebApplication.CreateBuilder(args);
 string connString = builder2.Configuration.GetConnectionString("default");
 builder.Services.AddScoped<IDbConnector>(db => new SqlConnector(connString));
 
-//DI
+/*//DI
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
@@ -42,14 +38,15 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderApplication, OrderApplication>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+*/
 
 
-
+builder.Services.RegisterIoC();
 
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

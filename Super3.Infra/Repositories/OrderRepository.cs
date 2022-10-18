@@ -16,26 +16,26 @@ namespace Super3.Infra.Repositories
         public async Task<List<Order>> GetAllAsync()
         {
             string sql = $@"SELECT o.Id
-                            ,o.ordernumber
-                            ,o.orderdate
-                            ,o.totalprice
-                            ,c.Id
-                            ,c.firstname
-                            ,c.lastname
-                            ,c.document
-                            ,c.street
-                            ,c.addressnumber
-                            ,c.Neighborhood
-                            ,c.city
-                            ,c.province
-                            ,c.cep
-                        FROM [order] o
-                        JOIN Customer c ON o.customerId = c.Id";
+,o.ordernumber
+,o.orderdate
+,o.totalprice
+,c.Id
+,oi.orderId as Id
+,oi.productprice
+,oi.totalamount
+,p.Id
+,p.productName
+FROM [order] o
+JOIN Customer c ON o.customerId = c.Id
+JOIN OrderItem oi ON oi.orderId = o.Id
+JOIN Product p ON oi.ProductId = p.Id";
 
-            var orders = await _dbConnector.dbConnection.QueryAsync<Order, Customer, Order>(
+            var orders = await _dbConnector.dbConnection.QueryAsync<Order, Customer, OrderItem, Product ,Order>(
                 sql: sql,
-                map: (order, customer) =>
+                map: (order, customer, orderItem, product) =>
                 {
+                    order.Item = orderItem;
+                    order.Product = product;
                     order.Customer = customer;
                     return order;
                 },
@@ -47,22 +47,13 @@ namespace Super3.Infra.Repositories
             return orders.ToList();
         }
 
-        public async Task<Order> GetByIdAsync(int orderId)
+        public async Task<Order> GetByIdAsync(string orderId)
         {
             string sql = $@"SELECT o.Id
                             ,o.ordernumber
                             ,o.orderdate
                             ,o.totalprice
-                            ,c.Id as customerId
-                            ,c.firstname
-                            ,c.lastname
-                            ,c.document
-                            ,c.street
-                            ,c.addressnumber
-                            ,c.Neighborhood
-                            ,c.city
-                            ,c.province
-                            ,c.cep
+                            ,c.Id
                         FROM [order] o
                         JOIN Customer c ON o.customerId = c.Id";
 
@@ -81,19 +72,19 @@ namespace Super3.Infra.Repositories
             return order.FirstOrDefault();
         }
 
-        public async Task<List<OrderItem>> ListItemByOrderIdAsync(int orderId)
+        public async Task<List<OrderItem>> ListItemByOrderIdAsync(string orderId)
         {
-            string sql = $@"SELECT oi.Id
+            string sql = $@"SELECT oi.orderId as Id
                                ,oi.productprice
-                               ,o.Id as orderId
-                               ,o.ordernumber
-                               ,o.orderdate
+                               ,oi.totalamount
+                               ,o.Id
                                ,o.totalprice
-                               ,p.Id as productId
+                               ,p.Id as Id
                                ,p.productname
                            FROM OrderItem oi
-                           JOIN [order] o ON oi.orderid = o.Id
-                           JOIN Product p ON oi.productId = p.Id";
+                           JOIN product p ON oi.productId = p.Id
+                           JOIN [order] o ON oi.OrderId = o.Id
+                           WHERE oi.OrderId = @OrderId";
             var items = await _dbConnector.dbConnection.QueryAsync<OrderItem, Order, Product, OrderItem>(
 
                 sql: sql,
@@ -107,14 +98,8 @@ namespace Super3.Infra.Repositories
                 splitOn: "Id",
                 transaction: _dbConnector.dbTransaction);
             return items.ToList();
-
-
-
         }
-        
-        
-        
-        
+
         public async Task CreateAsync(Order order)
         {
             
@@ -148,8 +133,6 @@ namespace Super3.Infra.Repositories
                     await CreateItemAsync(item);
                 }
             }
-
-
         }
 
         public async Task CreateItemAsync(OrderItem item)
@@ -157,29 +140,23 @@ namespace Super3.Infra.Repositories
             string sql = $@"INSERT INTO OrderItem
                                ([OrderId]
                                ,[ProductId]
-                               ,[ProductPrice])
+                               ,[ProductPrice]
+                               ,[TotalAmount])
                             VALUES
                                (@OrderId
                                ,@ProductId
-                               ,@ProductPrice)";
+                               ,@ProductPrice
+                               ,@TotalAmount)";
             await _dbConnector.dbConnection.ExecuteAsync(sql, new
             {
                 OrderId = item.Order.Id,
                 ProductId = item.Product.Id,
                 ProductPrice = item.ProductPrice,
+                TotalAmount = item.TotalAmount
             }, _dbConnector.dbTransaction);
-
-
-
-
-            
         }
 
-
-
-
-
-        public async Task<bool> ExistsByIdAsync(int orderId)
+        public async Task<bool> ExistsByIdAsync(string orderId)
         {
             string sql = $@"SELECT 1 FROM [Order] WHERE Id = @Id ";
 

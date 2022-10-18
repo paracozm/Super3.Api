@@ -8,9 +8,13 @@ namespace Super3.Domain.Validations
     {
         public OrderValidation()
         {
-            //RuleFor(x => x.Customer.Id).NotNull().NotEmpty().WithMessage("Customer can't be null");
-            //RuleFor(X => X.Product.Id).NotNull().NotEmpty().WithMessage("Product can't be null");
-            //RuleFor(x=>x.Item.Id).NotNull().NotEmpty().WithMessage("Product Item can't be null");
+
+            ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
+
+            RuleFor(x => x.Customer.Id).NotNull().WithMessage("Customer can't be null");
+            RuleFor(X => X.Items).NotNull().WithMessage("Must have at least one item");
+            //RuleFor(x => x.Items).NotNull().NotEmpty().WithMessage("Product Item can't be null");
+            //RuleFor(x => x.Items.Count).NotEqual(0).WithMessage("Must have at least one item");
 
         }
     }

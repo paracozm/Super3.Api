@@ -56,7 +56,9 @@ namespace Super3.Infra.Repositories
 
         public async Task CreateAsync(Customer customer)
         {
-            string sql = $@"INSERT INTO [dbo].[Customer]
+            string sql = $@"
+
+INSERT into [dbo].[Customer]
                            ([FirstName]
                            ,[LastName]
                            ,[Document]
@@ -66,6 +68,7 @@ namespace Super3.Infra.Repositories
                            ,[City]
                            ,[Province]
                            ,[CEP])
+
                      VALUES
                            (@FirstName
                            ,@LastName
@@ -79,6 +82,7 @@ namespace Super3.Infra.Repositories
 
             await _dbConnector.dbConnection.ExecuteAsync(sql, new
             {
+
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 Document = customer.Document.Replace("-", "").Replace(".", ""),
@@ -89,6 +93,10 @@ namespace Super3.Infra.Repositories
                 Province = customer.Province,
                 CEP = customer.CEP.Replace("-", "").Replace(".", "")
             }, _dbConnector.dbTransaction);
+
+            //var query = await _dbConnector.dbConnection.QueryAsync<Customer>("Select * from Customer where Id = @Id", new { Id = customer.Id }, _dbConnector.dbTransaction);
+            
+
         }
 
         public async Task UpdateAsync(Customer customer)

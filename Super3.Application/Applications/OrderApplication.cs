@@ -33,7 +33,7 @@ namespace Super3.Application.Applications
             return Response.OK(response);
         }
 
-        public async Task<Response<OrderResponse>> GetByIdAsync(int orderId)
+        public async Task<Response<OrderResponse>> GetByIdAsync(string orderId)
         {
             Response<Order> order = await _orderService.GetByIdAsync(orderId);
 
@@ -51,6 +51,7 @@ namespace Super3.Application.Applications
             {
                 var orderModel = _mapper.Map<Order>(order);
                 await _orderService.CreateAsync(orderModel);
+
                 return Response.OK(order);
             }
             catch (Exception ex)

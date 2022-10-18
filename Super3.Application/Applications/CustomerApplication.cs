@@ -46,16 +46,17 @@ namespace Super3.Application.Applications
 
         public async Task<Response> CreateAsync(CreateCustomerRequest customer)
         {
+
             try
             {
                 var customerModel = _mapper.Map<Customer>(customer);
-
                 var response = await _customerService.CreateAsync(customerModel);
                 return response;
             }
             catch (Exception ex)
             {
                 var response = Report.Create(ex.Message);
+
                 return Response.Unprocessable(response);
             }
         }

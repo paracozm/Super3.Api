@@ -20,4 +20,6 @@
     <ProjectReference Include="..\Super3.Infra\Super3.Infra.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="ssl" /></VisualStudio></ProjectExtensions>
+
 </Project>

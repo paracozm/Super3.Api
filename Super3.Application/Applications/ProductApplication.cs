@@ -37,7 +37,6 @@ namespace Super3.Application.Applications
 
         public async Task<Response<ProductResponse>> GetByIdAsync(string productId)
         {
-            //var Id2 = Id.ToString();
             Response<Product> product = await _productService.GetByIdAsync(productId);
 
             if (product.Report.Any())
@@ -57,8 +56,8 @@ namespace Super3.Application.Applications
             try
             {
                 var productModel = _mapper.Map<Product>(product);
-                await _productService.CreateAsync(productModel);
-                return Response.OK(product);
+                return await _productService.CreateAsync(productModel);
+                
             }
             catch (Exception ex)
             {

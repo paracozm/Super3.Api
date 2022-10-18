@@ -5,9 +5,10 @@ namespace Super3.Domain.Validations
 {
     public class CustomerValidation : AbstractValidator<Customer>
     {
-
         public CustomerValidation()
         {
+
+            ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
 
             RuleFor(x => x.FirstName).NotNull().NotEmpty().Length(3, 30).WithMessage("Please fill in the first name field correctly!");
             RuleFor(x => x.LastName).NotNull().NotEmpty().Length(3, 30).WithMessage("Please fill in the last name field correctly!");
@@ -17,8 +18,5 @@ namespace Super3.Domain.Validations
 
 
         }
-
-
-
     }
 }

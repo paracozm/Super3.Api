@@ -28,7 +28,7 @@ namespace Super3.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> Get(int id)
+        public async Task<ActionResult> Get(string id)
         {
             var response = await _orderApplication.GetByIdAsync(id);
             if (response.Report.Any())
