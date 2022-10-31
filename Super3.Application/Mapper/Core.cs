@@ -2,9 +2,11 @@
 using Super3.Application.DataContract.Request.Customer;
 using Super3.Application.DataContract.Request.Order;
 using Super3.Application.DataContract.Request.Product;
+using Super3.Application.DataContract.Request.Stock;
 using Super3.Application.DataContract.Response.Customer;
 using Super3.Application.DataContract.Response.Order;
 using Super3.Application.DataContract.Response.Product;
+using Super3.Application.DataContract.Response.Stock;
 using Super3.Domain.Model;
 
 namespace Super3.Application.Mapper
@@ -16,6 +18,7 @@ namespace Super3.Application.Mapper
             CustomerMap();
             ProductMap();
             OrderMap();
+            StockMap();
         }
         private void CustomerMap()
         {
@@ -43,6 +46,13 @@ namespace Super3.Application.Mapper
             CreateMap<OrderItem, OrderItemResponse>();
 
             
+        }
+
+        private void StockMap()
+        {
+            CreateMap<CreateStockRequest, Stock>()
+                .ForPath(dest => dest.Product.Id, opt => opt.MapFrom(src => src.ProductId));
+            CreateMap<Stock, StockResponse>();
         }
 
 

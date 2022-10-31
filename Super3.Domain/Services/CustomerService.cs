@@ -1,4 +1,4 @@
-﻿using Super3.Domain.Interfaces.Repositories;
+﻿ using Super3.Domain.Interfaces.Repositories;
 using Super3.Domain.Interfaces.Services;
 using Super3.Domain.Model;
 using Super3.Domain.Validations;

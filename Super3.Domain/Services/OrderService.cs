@@ -68,7 +68,7 @@ namespace Super3.Domain.Services
                 order.OrderNumber = Guid.NewGuid().ToString("N");
                 order.Id = Guid.NewGuid().ToString("N");
                 order.OrderDate = DateTime.UtcNow;
-
+                
 
                 await _unitOfWork.OrderRepository.CreateAsync(order);
 

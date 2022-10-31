@@ -85,7 +85,7 @@ namespace Super3.Infra.Repositories
 
             await _dbConnector.dbConnection.ExecuteAsync(sql, new
             {
-                Id = stock,
+                Id = stock.Product.Id,
                 Quantity = stock.Quantity,
             }, _dbConnector.dbTransaction); 
         }

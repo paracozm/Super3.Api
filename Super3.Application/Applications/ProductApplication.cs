@@ -57,7 +57,6 @@ namespace Super3.Application.Applications
             {
                 var productModel = _mapper.Map<Product>(product);
                 return await _productService.CreateAsync(productModel);
-                
             }
             catch (Exception ex)
             {
@@ -68,12 +67,17 @@ namespace Super3.Application.Applications
 
 
 
-        public async Task<Response> UpdateAsync(UpdateProductRequest request)
+        public async Task<Response> UpdateAsync(UpdateProductRequest product)
         {
+            try
             {
-                var product = _mapper.Map<Product>(request);
-
-                return await _productService.UpdateAsync(product);
+                var productModel = _mapper.Map<Product>(product);
+                return await _productService.UpdateAsync(productModel);
+            }
+            catch (Exception ex)
+            {
+                var response = Report.Create(ex.Message);
+                return Response.Unprocessable(response);
             }
         }
     }

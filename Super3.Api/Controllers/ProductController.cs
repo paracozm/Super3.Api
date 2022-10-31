@@ -56,8 +56,8 @@ namespace Super3.Api.Controllers
 
 
         // PUT api/<ProductController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] UpdateProductRequest request)
+        [HttpPut("{Id}")]
+        public async Task<ActionResult> Put(string Id, [FromBody] UpdateProductRequest request)
         {
             var response = await _productApplication.UpdateAsync(request);
             if (response.Report.Any())

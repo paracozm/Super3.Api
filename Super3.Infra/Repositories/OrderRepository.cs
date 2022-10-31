@@ -114,10 +114,13 @@ JOIN Product p ON oi.ProductId = p.Id";
                                ,@CustomerId
                                ,@OrderNumber
                                ,@OrderDate
-                               ,@TotalPrice)";
+                               ,@TotalPrice);
+
+";
 
             await _dbConnector.dbConnection.ExecuteAsync(sql, new
             {
+                //ProductId = order.Product.Id,
                 Id = order.Id,
                 CustomerId = order.Customer.Id,
                 OrderNumber = order.OrderNumber,
@@ -146,7 +149,14 @@ JOIN Product p ON oi.ProductId = p.Id";
                                (@OrderId
                                ,@ProductId
                                ,@ProductPrice
-                               ,@TotalAmount)";
+                               ,@TotalAmount);
+
+UPDATE Stock
+SET quantity = quantity - @TotalAmount
+WHERE ProductId = @ProductId;
+
+
+";
             await _dbConnector.dbConnection.ExecuteAsync(sql, new
             {
                 OrderId = item.Order.Id,

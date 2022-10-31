@@ -143,7 +143,6 @@ INSERT into [dbo].[Customer]
         {
             string sql = $@"SELECT 1 FROM Customer WHERE Document = @Document ";
 
-
             var customerCPF = await _dbConnector.dbConnection.QueryAsync<bool>(sql, new { Document = cpf }, _dbConnector.dbTransaction);
 
             return customerCPF.FirstOrDefault();

@@ -7,8 +7,8 @@ namespace Super3.Application.Interfaces
     public interface IStockApplication
     {
         Task<Response> CreateAsync(CreateStockRequest stock);
-        Task<Response<StockResponse>> GetByIdAsync(int stockId);
+        Task<Response<StockResponse>> GetByIdAsync(string stockId);
         Task<Response<List<StockResponse>>> GetAllAsync();
-        Task<Response> UpdateAsync(CreateStockRequest stock);
+        Task<Response> UpdateAsync(UpdateStockRequest stock);
     }
 }

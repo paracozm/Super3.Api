@@ -50,9 +50,9 @@ namespace Super3.Application.Applications
             try
             {
                 var orderModel = _mapper.Map<Order>(order);
-                await _orderService.CreateAsync(orderModel);
+                var response = await _orderService.CreateAsync(orderModel);
 
-                return Response.OK(order);
+                return Response.OK(response);
             }
             catch (Exception ex)
             {

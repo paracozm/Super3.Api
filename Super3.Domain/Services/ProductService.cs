@@ -30,7 +30,7 @@ namespace Super3.Domain.Services
 
             if (!exists)
             {
-                response.Report.Add(Report.Create($"Customer {productId} doesn't exist!"));
+                response.Report.Add(Report.Create($"SKU {productId} doesn't exist!"));
                 return response;
             }
             //var customerIdStr = customerId.ToString();
@@ -71,7 +71,7 @@ namespace Super3.Domain.Services
             var exists = await _unitOfWork.ProductRepository.ExistsByIdAsync(product.Id);
             if (!exists)
             {
-                response.Report.Add(Report.Create($"Customer {product.Id} doesn't exist!"));
+                response.Report.Add(Report.Create($"SKU {product.Id} doesn't exist!"));
                 return response;
             }
 

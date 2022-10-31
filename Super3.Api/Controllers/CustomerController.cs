@@ -42,7 +42,7 @@ namespace Super3.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody]CreateCustomerRequest request)
+        public async Task<ActionResult> Post ([FromBody] CreateCustomerRequest request)
         {
             var response = await _customerApplication.CreateAsync(request);
             

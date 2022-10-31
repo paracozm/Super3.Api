@@ -1,14 +1,7 @@
-using Microsoft.AspNetCore.Hosting;
 using Super3.Api;
-using Super3.Application.Applications;
-using Super3.Application.Interfaces;
 using Super3.Application.Mapper;
-using Super3.Domain.Interfaces.Repositories;
 using Super3.Domain.Interfaces.Repositories.DataConnector;
-using Super3.Domain.Interfaces.Services;
-using Super3.Domain.Services;
 using Super3.Infra.DataConnector;
-using Super3.Infra.Repositories;
 
 
 

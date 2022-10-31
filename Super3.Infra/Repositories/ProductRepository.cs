@@ -48,12 +48,13 @@ namespace Super3.Infra.Repositories
         }
         public async Task UpdateAsync(Product product)
         {
-            string sql = $@"UPDATE Product
-                                SET [ProductName] = @ProductName
+            string sql = @"UPDATE Product
+                                SET ProductName = @ProductName
                                 WHERE Id = @Id";
 
             await _dbConnector.dbConnection.ExecuteAsync(sql, new
             {
+                Id = product.Id,
                 ProductName = product.ProductName
             }, _dbConnector.dbTransaction);
 
